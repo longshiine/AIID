@@ -22,7 +22,6 @@ const KakaoMap = (props) => {
         var infowindow = new kakao.maps.InfoWindow({zIndex:1});
         var customOverlay = new kakao.maps.CustomOverlay({});
         
-
         // 2. 레이어 관련 로직
         boundsWithMarkers(props.data, kakao.maps.services.Status.OK)
         seoulGeo.features.forEach((val, index) => {
@@ -70,12 +69,14 @@ const KakaoMap = (props) => {
           let path = [];            //폴리곤 그려줄 path
           let points = [];        //중심좌표 구하기 위한 지역구 좌표들
           const {color, count} = AIIDInfo(name)
-          coordinates[0].forEach((coordinate) => {
+          coordinates[0].forEach((coordinate, idx) => {
               let point = new Object();
-              point.x = coordinate[1];
-              point.y = coordinate[0];
-              points.push(point);
-              path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));  
+              if (idx % 2) {
+                point.x = coordinate[1];
+                point.y = coordinate[0];
+                points.push(point);
+                path.push(new kakao.maps.LatLng(coordinate[1], coordinate[0]));  
+              }
           })
           // 다각형을 생성합니다 
           const polygon = new kakao.maps.Polygon({
@@ -101,12 +102,30 @@ const KakaoMap = (props) => {
           kakao.maps.event.addListener(polygon, 'mouseout', function() {
               polygon.setOptions({fillColor: color});
               customOverlay.setMap(null);
-          }); 
+          });
+          kakao.maps.event.addListener(polygon, 'click', function(mouseEvent) {
+            var level = map.getLevel()-2;
+            map.setLevel(level, {anchor: centroid(points), animate: {
+              duration: 350
+            }})
+          });
+        }
+        function centroid(points) {
+          var i, j, len, p1, p2, f, area, x, y;
+          area = x = y = 0;
+          for (i =0, len = points.length, j = len -1; i< len; j = i++){
+            p1 = points[i];
+            p2 = points[j]
+            f = p1.y * p2.x - p2.y * p1.x;
+            x += (p1.x +p2.x) * f;
+            y += (p1.y +p2.y) * f;
+            area += f * 3;
+          }
+          return new kakao.maps.LatLng(x /area, y / area);
         } 
       });
     };
-  }, []);
-  
+  }, [props.marker]);
   return (
     <Container >
       <Title>
@@ -114,7 +133,13 @@ const KakaoMap = (props) => {
       </Title>
       <MapContents id="Mymap" />
       <InfoTitle>실종가능성</InfoTitle>
-      <Info>300이상: 매우낮음, 600이상: 낮음, 900이상: 중간, 1200이상: 위험,  1500이상: 매우위험</Info>
+      <Info>
+        <VeryLow>300이상: 매우낮음,</VeryLow> 
+        <Low>600이상: 낮음,</Low> 
+        <Middle>900이상: 중간,</Middle>
+        <High>1200이상: 위험,</High> 
+        <VeryHigh>1500이상: 매우위험</VeryHigh>
+      </Info>
     </Container>
   );
 }
@@ -144,12 +169,33 @@ const InfoTitle = styled.div`
   border: 1px solid;
   padding: 5px;
   margin-top: 10px;
+  background-color: black;
+  color: #fff;
 `
 const Info = styled.div`
+  background-color: black;
   border: 1px solid;
   padding: 5px;
   margin-top: 5px;
 `
-
-
+const VeryLow = styled.span`
+  color: #fff;
+  margin-right: 15px;
+`
+const Low = styled.span`
+  color: #E3C4BD;
+  margin-right: 15px;
+`
+const Middle = styled.span`
+  color: #F7A49B;
+  margin-right: 15px;
+`
+const High = styled.span`
+  color: #E03F3C;
+  margin-right: 15px;
+`
+const VeryHigh = styled.span`
+  color: #753B39;
+  margin-right: 15px;
+`
 export default KakaoMap;

@@ -1,12 +1,5 @@
 export const data = [
   {
-    address_name: "경기 성남시 중원구 상대원동 269-10",
-    category_group_code: "",
-    category_group_name: "",
-    category_name: "의료,건강 > 보건소",
-    distance: "",
-    id: "10786488",
-    phone: "031-729-3930",
     place_name: "실신",
     place_url: "http://place.map.kakao.com/10786488",
     road_address_name: "경기 성남시 중원구 금상로 137",
@@ -14,13 +7,6 @@ export const data = [
     y: "37.539639030116945"
   },
   {
-    address_name: "경기 성남시 중원구 상대원동 269-10",
-    category_group_code: "",
-    category_group_name: "",
-    category_name: "의료,건강 > 보건소",
-    distance: "",
-    id: "10786488",
-    phone: "031-729-3930",
     place_name: "실신",
     place_url: "http://place.map.kakao.com/10786488",
     road_address_name: "경기 성남시 중원구 금상로 137",
@@ -28,13 +14,6 @@ export const data = [
     y: "37.5941513366375"
   },
   {
-    address_name: "경기 성남시 중원구 상대원동 269-10",
-    category_group_code: "",
-    category_group_name: "",
-    category_name: "의료,건강 > 보건소",
-    distance: "",
-    id: "10786488",
-    phone: "031-729-3930",
     place_name: "배회",
     place_url: "http://place.map.kakao.com/10786488",
     road_address_name: "경기 성남시 중원구 금상로 137",
@@ -42,13 +21,6 @@ export const data = [
     y: "37.56498984534305"
   },
   {
-    address_name: "경기 성남시 중원구 상대원동 269-10",
-    category_group_code: "",
-    category_group_name: "",
-    category_name: "의료,건강 > 보건소",
-    distance: "",
-    id: "10786488",
-    phone: "031-729-3930",
     place_name: "주취 행동",
     place_url: "http://place.map.kakao.com/10786488",
     road_address_name: "경기 성남시 중원구 금상로 137",
