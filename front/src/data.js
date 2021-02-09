@@ -1,3 +1,7 @@
+export const location = [
+    
+]
+
 export const data = [
   {
     place_name: "실신",

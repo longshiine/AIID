@@ -1,4 +1,5 @@
-import KakaoMap from "./KakaoMap"
+// import KakaoMap from "./KakaoMap"
+import KakaoMap from "./Cor"
 import {data} from "./data"
 import React, { useState, useEffect } from "react";
 
@@ -29,7 +30,8 @@ function App() {
   }
   return (
     <div className="App">
-      <KakaoMap latlng={latlng} data={data}/>
+      {/* <KakaoMap latlng={latlng} data={data}/> */}
+      <KakaoMap/>
     </div>
   );
 }
