@@ -5,8 +5,8 @@ import requests
 import json
 import datetime
 
-f = open('data/only_one_location.csv', 'r', encoding='utf-8')
-ff = open('data/new.csv', 'w', encoding='utf-8')
+f = open('preprocessing/data/only_one_location.csv', 'r', encoding='utf-8')
+ff = open('preprocessing/data/new.csv', 'w', encoding='utf-8')
 rdr = csv.reader(f)
 wdr = csv.writer(ff)
 

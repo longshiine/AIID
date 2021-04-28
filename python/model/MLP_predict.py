@@ -11,8 +11,8 @@ import torch.nn.functional as F
 from torchvision import models
 from datetime import datetime
 
-train = pd.read_csv('data/animal/train.csv')
-test = pd.read_csv('data/animal/test.csv')
+train = pd.read_csv('preprocess/data/animal/train.csv')
+test = pd.read_csv('preprocess/data/animal/test.csv')
 
 train_X = train.drop(columns= ['OutcomeType', 'OutcomeSubtype', 'AnimalID'])
 Y = train['OutcomeType']

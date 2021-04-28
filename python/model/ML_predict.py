@@ -12,7 +12,7 @@ from sklearn.neural_network import MLPClassifier
 
 # dataset prepare
 RANDOM_SEED = 42
-data = pd.read_csv('./data/new.csv')
+data = pd.read_csv('preprocess/data/new.csv')
 train, test = train_test_split(data, test_size=0.2, random_state=RANDOM_SEED)
 
 train_x = train[['Target','Month(sin)','Month(cos)','Time(sin)','Time(cos)','Type','Sex','Age','Rain','Sky','Temperature']]
