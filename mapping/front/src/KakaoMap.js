@@ -2,13 +2,14 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import seoulGeo from "./seoul"
- 
+import {api_key} from "./config/config"
+
 const KakaoMap = (props) => {
   useEffect(() => {
     // 0. Map initialize
     const script = document.createElement("script");
     script.async = true;
-    script.src = "https://dapi.kakao.com/v2/maps/sdk.js?appkey=5c8b46c9fb95f0c357280a31672c2ffe&autoload=false&libraries=services,clusterer";
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${api_key}&autoload=false&libraries=services,clusterer`;
     document.head.appendChild(script);
     script.onload = () => {
       kakao.maps.load(() => {
