@@ -20,7 +20,6 @@ for idx,line in enumerate(rdr):
       result = dict(r.json())
       if len(result) == 1:
         row = [0,0,0]
-        print("fuck")
       else:
         row = [result['JUSO'], result['EPSG_4326_X'], result['EPSG_4326_Y']]
         print(row)
