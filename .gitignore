@@ -1,8 +1,8 @@
 #config files
-mapping/cluster/src/config/
-mapping/front/src/config/
+/mapping/cluster/src/config/
+/mapping/front/src/config/
 
 #Unnecessary
-python/model/MLP_predict.py
-python/model/ML_predict.py
-python/preprocess/data/
+/python/model/MLP_predict.py
+/python/model/ML_predict.py
+/python/preprocess/data/
