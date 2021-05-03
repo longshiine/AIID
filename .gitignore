@@ -5,4 +5,4 @@
 #Unnecessary
 /python/model/MLP_predict.py
 /python/model/ML_predict.py
-/python/preprocess/data
+/python/preprocess/data/
