@@ -58,8 +58,7 @@ LSTM Autoencoder는 시퀀스(sequence) 데이터에 Encoder-Decoder LSTM 아키
 encoder와 decoder는 학습이 진행될 수 록 정상 신호를 더 정상 신호 답게 표현하는 방법을 학습하게 될 것이며 최종적으로 재구성 한 결과도 정상 신호와 매우 유사한 분포를 가지는 데이터일 것이다. 그렇기 때문에 이 모델에 비정상 신호를 입력으로 넣게 되면 정상 분포와 다른 특성의 분포를 나타낼 것이기 때문에 높은 reconstruction error를 보이게 될 것이다.
 
 ### Curve Shifting을 적용한 LSTM Autoencoder
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5a485ea1-5672-458a-8141-97b8eb10955f/_2021-04-04__3.24.46.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5a485ea1-5672-458a-8141-97b8eb10955f/_2021-04-04__3.24.46.png)
+<img width="662" alt="스크린샷 2021-05-28 오후 5 46 52" src="https://user-images.githubusercontent.com/70363646/119957063-b5e00580-bfdc-11eb-8adf-e7808e495b3c.png">
 
 전체 프로세스는 위 아키텍처와 같다. 먼저 Curve Shifting을 통해 데이터의 시점을 변환해주고 normal 데이터만을 통해 LSTM Autoencoder 모델을 학습시키게 된다. 그 후 재구성 손실을 계산 후 Precision Recall Curve를 통해 normal/abnormal을 구분하기 위한 threshold를 지정하게 되고 이 threshold를 기준으로 마지막으로 테스트 셋의 재구성 손실을 분류하여 t+n 시점을 예측하게 된다.각 부분에 대해 아래에서 좀 더 상세히 살펴보자.
 
@@ -68,16 +67,14 @@ encoder와 decoder는 학습이 진행될 수 록 정상 신호를 더 정상 �
 비정상 신호를 탐지하기 위해서는 비정상 신호가 들어오기 전에 즉, 뭔가 고장 혹은 결함이 발생하기 전에 미리 예측을 해야만 한다. 그렇기 때문에 단순히 현재 시점의 error를 계산하여 비정상 신호를 탐지하는 것은 이미 고장이 발생한 후 예측하는 것과 다름이 없기 때문에 **데이터에 대한 시점 변환**이 꼭 필요하다.
 
 이러한 future value 예측을 위해 다양한 방법이 있는데 여기서는 **Curve Shifting**이라는 기법을 적용할 것이다.
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1935d3f3-3913-411b-8a55-a6ea936392fe/_2021-04-04__3.26.19.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1935d3f3-3913-411b-8a55-a6ea936392fe/_2021-04-04__3.26.19.png)
+<img width="350" alt="스크린샷 2021-05-28 오후 5 47 13" src="https://user-images.githubusercontent.com/70363646/119957115-c1333100-bfdc-11eb-9d9b-5a0a96972729.png">
 
 Curve Shifting은 **사전 예측 개념**을 적용하기 위한 Shifting 방법이다. 예를 들어 위 그림과 같이 비정상 신호(1)를 2일 전에 조기 예측 하고자 한다면 단순히 Y값을 두 칸씩 내리는 것이 아니라 비정상 신호(1)가 있는 날짜로부터 2일 전까지의 데이터를 비정상 신호(1)로 바꾸어주는 것이다. 이는 비정상 신호가 발생하기 전 어떠한 조짐이 있을 것이며 이러한 조짐이 데이터 특성에 나타날 것이라는 가정을 가지고 학습하는 방법이다.그리고 나서 본래 비정상 신호(1) 데이터를 제거해주는데 이렇게 하는 이유는 라벨을 바꿔주는 순간 이는 비정상 신호 예측 문제가 아닌 비정상 신호 조짐 예측 문제가 되는 것이 때문에 데이터의 학습 혼동을 없애주기 위해 제거하는 것이라 보면 될 것이다.
 
 ### 2. Threshold by Precision-Recall-Curve
 
 Autoencoder는 재구성 된 결과를 intput과 비교하여 재구성 손실(Reconstruction Error)를 계산한다고 말했다. 그리고 이 재구성 손실값을 통해 손실값이 낮으면 정상으로, 손실값이 높으면 이상으로 판단한다고 하였는데, 이 정상과 이상을 나누는 기준은 과연 무엇일까?일반적으로 모델이 정상 데이터만으로 학습을 하여 정상 데이터를 재구성하였을 때 학습이 잘 되었다고 가정하면 손실값은 0에 가까울 것이고, 학습이 잘 안되었다고 하면 손실값은 1에 가까울 것이다. 보통 분류(Classification)문제에서는 예측 확률값(0% ~ 100%)을 통해 50%를 기준으로 분류를 하게 되는데, 이 recontruction error의 경우 그렇게 극단적으로 값이 튀기는 힘들기 때문에 정상과 이상을 분리하는 타당한 threshold값을 정하는 것이 필요하다.
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ae285549-6f87-426d-a006-ed3c9affb588/_2021-04-04__3.27.16.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ae285549-6f87-426d-a006-ed3c9affb588/_2021-04-04__3.27.16.png)
+<img width="563" alt="스크린샷 2021-05-28 오후 5 47 35" src="https://user-images.githubusercontent.com/70363646/119957158-cb552f80-bfdc-11eb-8dd2-f082febd9fea.png">
 
 위와 같은 문제의 적절한 threshold값을 적용하기 위한 방법 중 하나로 precision recall curve가 있다. 이는 Recall(재현율)과 Precision(정밀도)가 서로 Trade off 관계를 가지기 때문에 어느 한쪽에 치우지지 않는 최적의 threshold를 구하기 위한 방법이다.추후 이 검증 기법을 적용하여 LSTM Autoencoder를 통해 재구성 된 정상 신호와 비정상 신호를 구분하기 위한 적절한 threshold를 찾아낼 것이다.
 
@@ -89,23 +86,25 @@ Autoencoder는 재구성 된 결과를 intput과 비교하여 재구성 손실(R
 
 이는 사실상 날씨만 가지고 실종을 예측하는 task이다.
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7291b313-c89a-44de-9099-dba874e302b0/_2021-04-04__3.22.41.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7291b313-c89a-44de-9099-dba874e302b0/_2021-04-04__3.22.41.png)
+<img width="702" alt="스크린샷 2021-05-28 오후 5 47 47" src="https://user-images.githubusercontent.com/70363646/119957217-d7d98800-bfdc-11eb-9439-bde0961bd7a0.png">
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86feacc9-69de-44c8-a7af-d430fd866d4f/_2021-04-04__3.28.18.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/86feacc9-69de-44c8-a7af-d430fd866d4f/_2021-04-04__3.28.18.png)
+<img width="512" alt="스크린샷 2021-05-28 오후 5 48 22" src="https://user-images.githubusercontent.com/70363646/119957310-ef187580-bfdc-11eb-9730-50455009fd89.png">
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f660c995-06e4-4230-8100-d6e3eb086382/_2021-04-04__3.28.41.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/f660c995-06e4-4230-8100-d6e3eb086382/_2021-04-04__3.28.41.png)
+<img width="471" alt="스크린샷 2021-05-28 오후 5 48 26" src="https://user-images.githubusercontent.com/70363646/119957340-f475c000-bfdc-11eb-9dac-6db998bb7ec9.png">
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/59fd673e-5cd4-437d-aba8-bb386847f67f/_2021-04-04__3.29.11.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/59fd673e-5cd4-437d-aba8-bb386847f67f/_2021-04-04__3.29.11.png)
+<img width="458" alt="스크린샷 2021-05-28 오후 5 48 31" src="https://user-images.githubusercontent.com/70363646/119957353-f8094700-bfdc-11eb-81f7-360fbd4075de.png">
 
 예측 dimension이 너무 낮아서 threshold값이 제대로 추정이 안된다. (현재 기상 정보만으로 예측을 하기 때문)
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/05714770-15f7-4673-9e34-8461f53a5cbd/_2021-04-04__3.30.01.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/05714770-15f7-4673-9e34-8461f53a5cbd/_2021-04-04__3.30.01.png)
+<img width="466" alt="스크린샷 2021-05-28 오후 5 49 06" src="https://user-images.githubusercontent.com/70363646/119957429-08212680-bfdd-11eb-8af1-529cae70157f.png">
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d1717224-1bc6-47ee-83b4-88e52135c0ef/_2021-04-04__3.30.32.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d1717224-1bc6-47ee-83b4-88e52135c0ef/_2021-04-04__3.30.32.png)
+<img width="468" alt="스크린샷 2021-05-28 오후 5 49 11" src="https://user-images.githubusercontent.com/70363646/119957442-09eaea00-bfdd-11eb-8ed9-af4e9b4a6227.png">
+
 
 현재 8685개의 Test set(391개의 anomal)에 대해 정상은 7925개를 맞추고, 비정상은 18개를 맞췄다.
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c6a80c0b-8f57-4f5a-a0f6-d558d410d90c/_2021-04-04__3.35.57.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c6a80c0b-8f57-4f5a-a0f6-d558d410d90c/_2021-04-04__3.35.57.png)
+<img width="678" alt="스크린샷 2021-05-28 오후 5 49 35" src="https://user-images.githubusercontent.com/70363646/119957505-1707d900-bfdd-11eb-8a58-c5d42755f94b.png">
+
 
 실종이 일어나지 않은 무수한 케이스 + 실종에서 5% 정도로 실제 실종을 알아내고 있다. 이상행동과 같은 실시간 데이터가 추가된다면 **"실시간 실종 예측률"**이 올라갈 것으로 보인다.  현재는 오로지 실시간 기상 데이터만으로 실종을 예측하고 있다.
 
@@ -157,6 +156,3 @@ LSTM 모델 단독으로 발생 일시와 시간까지 예측하는 것이 가�
     전처리 / 모델 / 성능
     c) Long Short-Term Memory
     전처리 / 모델 / 성능
-
-## 4. 지도 마킹
-## 5. 논의
