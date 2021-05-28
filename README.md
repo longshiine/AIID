@@ -1,4 +1,9 @@
-# 복합인지 실종예측 모델 연구
+<img width="782" alt="스크린샷 2021-05-28 오후 5 55 55" src="https://user-images.githubusercontent.com/70363646/119958385-f68c4e80-bfdd-11eb-9ecd-72494919b5d7.png">
+
+<img width="536" alt="스크린샷 2021-05-28 오후 5 56 49" src="https://user-images.githubusercontent.com/70363646/119958536-1754a400-bfde-11eb-8873-e1d1981970b7.png">
+
+# 복합인지 실종예측 모델 연구 (AIID)
+## Advanced Integrated Intelligence for Identification
 ## 1. 연구 목적 및 방향성
 
 a) 기존 목표
