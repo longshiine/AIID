@@ -120,16 +120,14 @@ Autoencoder는 재구성 된 결과를 intput과 비교하여 재구성 손실(R
     2. 최근에 일어난 실종 사건의 경우 마커를 이용해 지도 상에 마킹하고, 일정한 기준에 따라 clustering하여 빈도의 시각화 및 UX 개선
 
     ## 구현 화면
+    **<1. 마킹 및 클러스터링>**  
+    <img width="401" alt="스크린샷 2021-05-28 오후 5 50 49" src="https://user-images.githubusercontent.com/70363646/119957709-4a4a6800-bfdd-11eb-8251-6bad13b9afe1.png">
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/338ca0de-dab9-4bd5-b68c-9ae14f757459/_2021-04-28__7.17.56.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/338ca0de-dab9-4bd5-b68c-9ae14f757459/_2021-04-28__7.17.56.png)
+    **< 2. Relative 위험도 폴리곤>**                         
+    <img width="404" alt="스크린샷 2021-05-28 오후 5 50 55" src="https://user-images.githubusercontent.com/70363646/119957723-4d455880-bfdd-11eb-8372-fa3696bc0d94.png">
 
-                               **<1. 마킹 및 클러스터링>**
+    <img width="410" alt="스크린샷 2021-05-28 오후 5 51 01" src="https://user-images.githubusercontent.com/70363646/119957747-546c6680-bfdd-11eb-88c3-57df1d89537c.png">
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/47f8a3a5-3339-4cf4-baa3-514428d1cb50/_2021-04-28__7.17.37.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/47f8a3a5-3339-4cf4-baa3-514428d1cb50/_2021-04-28__7.17.37.png)
-
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/407c9274-276f-45a7-9e87-e6ec5b8e3eef/_2021-04-28__7.17.46.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/407c9274-276f-45a7-9e87-e6ec5b8e3eef/_2021-04-28__7.17.46.png)
-
-                          **< 2. Relative 위험도 폴리곤>**
 
 - 의의:
 1. 추후 데이터가 업데이트 될시 응용 가능한 위험도 매핑 매커니즘.
