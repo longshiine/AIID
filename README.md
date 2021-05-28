@@ -30,8 +30,8 @@ LSTM 모델을 구축하기 전, RandomForest(이하 'RF') 모델과 단순한 �
 RF와 DNN 모두 특정 지역(동)에 대하여, 월, 요일, 기상 정보(기온(C), 강수량(mm), 풍속(m/s), 습도(%), 일조(hr), 일사(MJ/m2))를 input으로 넣었을 때 실종 발생 시간(시간 단위)을 output으로 주는 패러다임으로 모델을 구축하였다. 실종 사건이 발생한 케이스에 대한 데이터만으로 학습하기에, 주어진 일자에 실종 사건이 발생한다는 전제 조건 하에 언제(어느 시간에) 발생할지를 예측하는 모델들이다.
 
 RF와 DNN의 성능을 평가하기 위해 데이터셋을 training set와 evaluation set로 나누기엔 데이터의 양이 부족하여, 10-fold cross evaluation을 통한 평균 accuracy 값들을 실종 사건 수가 가장 많은 13개 동의 데이터에 대해 구하였다:
+<img width="687" alt="스크린샷 2021-05-28 오후 5 45 01" src="https://user-images.githubusercontent.com/70363646/119956830-74e7f100-bfdc-11eb-970a-e41733696c31.png">
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1b38671b-9ebb-4b0c-a52b-6c3b1656e5d3/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/1b38671b-9ebb-4b0c-a52b-6c3b1656e5d3/Untitled.png)
 
 13개 동에 대해 평균적으로 RF는 26.57%, DNN은 16.18%의 accuracy를 보였으며, 이는 모두 24시간 중 한 시간을 임의로 고르는 4.17%보다 높았다.
 
@@ -46,8 +46,8 @@ LSTM Autoencoder를 통해 Anomaly Detection하는 방법을 적용했다. Autoe
 대표적으로 이미지 분야에서도 정상적인 이미지로 모델 학습 후 비정상적인 이미지를 넣어 이를 디코딩 하게 되면 정상 이미지 특성과 디코딩 된 이미지 간의 차이인 재구성 손실(Reconstruction Error)를 계산하게 되는데 이 재구성 손실이 낮은 부분은 정상(normal), 재구성 손실이 높은 부분은 이상(Abnormal)로 판단할 수 있다.
 
 이러한 Anomaly Detection은 이미지 뿐만 아니라 이제부터 살펴보고자 하는 시계열 데이터에도 적용이 가능하다. 예를 들어 특정 설비의 센서를 통해 비정상 신호를 탐지하고자 한다면 Autoencoder를 LSTM 레이어로 구성한다면 이러한 시퀀스 학습이 가능하게 된다. 이를 통해 정상 신호만을 이용하여 모델을 학습시켜 추후 비정상 신호가 모델에 입력되면 높은 reconstruction error를 나타낼 것이므로 이를 비정상 신호로 판단할 수 있게 된다.
+![스크린샷 2021-05-28 오후 5 45 29](https://user-images.githubusercontent.com/70363646/119956889-829d7680-bfdc-11eb-95ec-44050348cd9b.png)
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e5249ccc-e797-43ce-8d11-b687cd74bb0d/_2021-04-04__3.23.14.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e5249ccc-e797-43ce-8d11-b687cd74bb0d/_2021-04-04__3.23.14.png)
 
 LSTM Autoencoder는 시퀀스(sequence) 데이터에 Encoder-Decoder LSTM 아키텍처를 적용하여 구현한 오토인코더이다. 모델에 입력 시퀀스가 순차적으로 들어오게 되고, 마지막 입력 시퀀스가 들어온 후 디코더는 입력 시퀀스를 재생성하거나 혹은 목표 시퀀스에 대한 예측을 출력한다.
 
