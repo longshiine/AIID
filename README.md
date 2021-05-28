@@ -1,9 +1,8 @@
 <img width="782" alt="스크린샷 2021-05-28 오후 5 55 55" src="https://user-images.githubusercontent.com/70363646/119958385-f68c4e80-bfdd-11eb-9ecd-72494919b5d7.png">
 
-<img width="536" alt="스크린샷 2021-05-28 오후 5 56 49" src="https://user-images.githubusercontent.com/70363646/119958536-1754a400-bfde-11eb-8873-e1d1981970b7.png">
-
 # 복합인지 실종예측 모델 연구 (AIID)
-## Advanced Integrated Intelligence for Identification
+### Advanced Integrated Intelligence for Identification  
+
 ## 1. 연구 목적 및 방향성
 
 a) 기존 목표
@@ -151,3 +150,4 @@ LSTM 모델 단독으로 발생 일시와 시간까지 예측하는 것이 가�
 데이터 전처리 과정에서 주소를 xy좌표로 변환한 데이터를 추가하였는데, 추후 연구에서 이 위치적 정보를 기준으로 데이터셋을 나누어 학습시키면 어떤 양상의 결과가 도출되는지 보는 것도 유의미할 것이다. 본 연구에선 '동/읍/면'을 기준으로 데이터를 나누어 각 지역별 모델을 얻을 수 있는 패러다임으로 모델을 구축하였으나, xy좌표 데이터를 활용한다면 일정한 xy좌표 범위에 따른 그리드(grid)를 설정하여 그리드별 실종 예측 모델을 얻을 수 있을 것이다.
 
 ## 7. Appendix
+<img width="536" alt="스크린샷 2021-05-28 오후 5 56 49" src="https://user-images.githubusercontent.com/70363646/119958536-1754a400-bfde-11eb-8873-e1d1981970b7.png">
